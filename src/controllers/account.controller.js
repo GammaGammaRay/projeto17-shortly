@@ -1,4 +1,4 @@
-import { db } from "../database/database.connection"
+import { db } from "../database/database.connection.js"
 
 async function userSignUp() {}
 
@@ -6,6 +6,5 @@ async function userSignIn() {}
 
 async function userGet() {}
 
-async function userRanking() {}
 
-export { userSignUp, userSignIn, userGet, userRanking }
+export { userSignUp, userSignIn, userGet }
