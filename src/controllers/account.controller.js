@@ -1,10 +1,47 @@
-import { db } from "../database/database.connection.js"
+import {
+  isEmailTaken,
+  userCreate,
+  loginVerify,
+  userNewSession,
+} from "../repositories/account.repository.js"
+import { v4 as uuid } from "uuid"
+import bcrypt from "bcrypt";
 
-async function userSignUp() {}
+async function userSignUp(req, res) {
+  const { name, email, password, confirmPassword } = req.body
+  const hash = bcrypt.hashSync(password, 10);
 
-async function userSignIn() {}
+  try {
+    if (password !== confirmPassword)
+      return res.status(422).send("Passwords do not match")
+    const emailIsTaken = await isEmailTaken(email)
+    if (emailIsTaken) return res.status(409).send("Email already used")
+    await userCreate(name, email, password)
+    return res.sendStatus(201)
+  } catch (error) {
+    console.log(error)
+    return res.status(500).send("Internal server error")
+  }
+}
 
-async function userGet() {}
+async function userSignIn(req, res) {
+  const { email, password } = req.body
+  try {
+    const userVerified = await loginVerify(email, password)
 
+    if (!userVerified) return res.sendStatus(401)
+
+    const token = uuid()
+
+    await userNewSession(email, token)
+
+    return res.status(200).send({ token })
+  } catch (error) {
+    console.log(error)
+    return res.status(500).send("Internal server error")
+  }
+}
+
+async function userGet(req, res) {}
 
 export { userSignUp, userSignIn, userGet }
