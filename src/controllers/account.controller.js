@@ -5,11 +5,11 @@ import {
   userNewSession,
 } from "../repositories/account.repository.js"
 import { v4 as uuid } from "uuid"
-import bcrypt from "bcrypt";
+import bcrypt from "bcrypt"
 
 async function userSignUp(req, res) {
   const { name, email, password, confirmPassword } = req.body
-  const hash = bcrypt.hashSync(password, 10);
+  const hash = bcrypt.hashSync(password, 10)
 
   try {
     if (password !== confirmPassword)
@@ -42,6 +42,14 @@ async function userSignIn(req, res) {
   }
 }
 
-async function userGet(req, res) {}
+async function userGetURLS(req, res) {
+  const user = res.locals.user
+  try {
+    const userUrls = await selectUserUrls(user.id)
+    res.send(userUrls.rows[0])
+  } catch (error) {
+    res.status(500).send(error.message)
+  }
+}
 
 export { userSignUp, userSignIn, userGet }
