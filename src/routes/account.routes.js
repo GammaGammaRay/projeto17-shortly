@@ -1,7 +1,7 @@
 import { Router } from "express"
 import validateSchema from "../middleware/validateSchema.js"
 import {
-  userGet,
+  userGetURLS,
   userSignIn,
   userSignUp,
 } from "../controllers/account.controller.js"
@@ -12,6 +12,6 @@ const accountRouter = Router()
 // accountRouter.post("/signup", validateSchema(schemaCustomer), addCustomer)
 accountRouter.post("/signup", validateSchema(schemaUserSignUp), userSignUp)
 accountRouter.post("/signin", userSignIn)
-accountRouter.get("/users/me", userGet)
+accountRouter.get("/users/me", userGetURLS)
 
 export default accountRouter

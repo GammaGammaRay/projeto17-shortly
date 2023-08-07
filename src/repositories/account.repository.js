@@ -1,5 +1,6 @@
 import { db } from "../database/database.connection.js"
 import bcrypt from "bcrypt";
+
 export async function isEmailTaken(email) {
   try {
     const userExists = await db.query(`SELECT * FROM users WHERE "email"=$1 `, [
@@ -49,7 +50,7 @@ export async function loginVerify(email, password) {
   }
 }
 
-export async function getUserData(email) {
+export async function getUserURLS(email) {
   try {
     const query = `
             SELECT u.id, u.name,

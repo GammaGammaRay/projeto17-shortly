@@ -3,6 +3,7 @@ import {
   userCreate,
   loginVerify,
   userNewSession,
+  getUserURLS
 } from "../repositories/account.repository.js"
 import { v4 as uuid } from "uuid"
 import bcrypt from "bcrypt"
@@ -45,11 +46,11 @@ async function userSignIn(req, res) {
 async function userGetURLS(req, res) {
   const user = res.locals.user
   try {
-    const userUrls = await selectUserUrls(user.id)
+    const userUrls = await getUserURLS(user.id)
     res.send(userUrls.rows[0])
   } catch (error) {
     res.status(500).send(error.message)
   }
 }
 
-export { userSignUp, userSignIn, userGet }
+export { userSignUp, userSignIn, userGetURLS }
