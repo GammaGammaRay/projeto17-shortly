@@ -1,6 +1,10 @@
 import { Router } from "express"
 import validateSchema from "../middleware/validateSchema.js"
-import { userGet, userSignIn, userSignUp } from "../controllers/account.controller.js"
+import {
+  userGet,
+  userSignIn,
+  userSignUp,
+} from "../controllers/account.controller.js"
 import schemaUserSignUp from "../schemas/userSignUp.schema.js"
 
 const accountRouter = Router()
